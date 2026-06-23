@@ -16,14 +16,14 @@ ADDONS = {}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = "web_scraper (+http://www.yourdomain.com)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.1958"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 # Concurrency and throttling settings
-CONCURRENT_REQUESTS = 16
-CONCURRENT_REQUESTS_PER_DOMAIN = 1
+CONCURRENT_REQUESTS = 8
+CONCURRENT_REQUESTS_PER_DOMAIN = 4
 DOWNLOAD_DELAY = 1
 
 # Disable cookies (enabled by default)
@@ -59,11 +59,13 @@ DOWNLOAD_DELAY = 1
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "web_scraper.pipelines.FilesPipeline": 300,
+   "web_scraper.pipelines.PdfScraperPipeline": 300,
+   "web_scraper.pipelines.JsonWritePipeline" : 400,
 }
-FILES_STORE = '..downloads'
+FILES_STORE = './pdf_downloads'
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'
+MEDIA_ALLOW_REDIRECTS = True
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,3 +90,4 @@ FILES_RESULT_FIELD = 'files'
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
+LOG_LEVEL = "INFO"

@@ -1,11 +1,10 @@
 import scrapy
-import os
-
-from urllib.parse import urljoin, urlparse
+import time
+from urllib.parse import urljoin
 
 class PdfSpider(scrapy.Spider):
     name = "pdf_spider"
-    start_urls = ["https://my.scca.com/eweb/DynamicPage.aspx?WebCode=results&Site=scca#blackhole"]
+    start_urls = ["https://drivenasa.com/results/?ee=1&eeFolder=NASA_Great_Lakes_Region%2F2025-Official-Results%2F2-Mid-Ohio-May-25&eeListID=2"]
 
     def parse(self, response):
         pdf_links = response.css('a[href$=".pdf"]::attr(href)').getall()
@@ -14,10 +13,11 @@ class PdfSpider(scrapy.Spider):
             pdf_url = urljoin(response.url, link)
             yield {
                 'file_urls': [pdf_url],
-                'pdf_title': response.css('a[href="{}"]::text'.format(link)).get(),
-                'source_page': response.url
-            }
+                'source_url': response.url,
+                'pdf_url': pdf_url,
+                'file_paths' : [],
+                'tables' : []
+            }         
 
-        next_page = response.css('a.next::attr(href)').get()
-        if next_page:
-            yield response.follow(next_page, self.parse) 
+        for next_page in response.css('a[href*="page"]::attr(href)').getall():
+            yield response.follow(next_page, self.parse)
