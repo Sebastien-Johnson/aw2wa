@@ -59,11 +59,12 @@ DOWNLOAD_DELAY = 1
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+   "web_scraper.pipelines.DuplicateUrls":200,
    "web_scraper.pipelines.PdfScraperPipeline": 300,
    "web_scraper.pipelines.JsonWritePipeline" : 400,
 }
 FILES_STORE = './pdf_downloads'
-FILES_URLS_FIELD = 'file_urls'
+FILES_URLS_FIELD = 'pdf_urls'
 FILES_RESULT_FIELD = 'files'
 MEDIA_ALLOW_REDIRECTS = True
 

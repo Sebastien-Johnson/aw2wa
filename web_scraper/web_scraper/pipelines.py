@@ -13,6 +13,32 @@ from scrapy.pipelines.files import FilesPipeline
 from scrapy.exceptions import DropItem
 
 
+class DuplicateUrls:
+    def __init__(self):
+        self.urls_seen = set()
+        self.filename = 'seen_urls.txt'
+
+    def open_spider(self, spider):
+        if os.path.exists(self.filename):
+            with open(self.filename, 'r') as f:
+                self.urls_seen = set(line.strip() for line in f)
+            #spider.logger.info(f'Loaded {len(self.urls_seen)} seen URLs')
+    
+    def close_spider(self, spider):
+        with open(self.filename, 'w') as f:
+            for url in self.urls_seen:
+                f.write(url + '\n')
+        #spider.logger.info(f'Saved {len(self.urls_seen)} URLs')
+    
+    def process_item(self, item, spider):
+        url = item['pdf_urls'][0]
+        
+        if url in self.urls_seen:
+            raise DropItem(f'Duplicate: {url}')
+        
+        self.urls_seen.add(url)
+        return item
+
 class PdfScraperPipeline(FilesPipeline):
     def process_item(self, item, spider = None):
         return super().process_item(item, spider)
