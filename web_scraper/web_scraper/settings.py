@@ -16,13 +16,13 @@ ADDONS = {}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "web_scraper (+http://www.yourdomain.com)"
+USER_AGENT = "web_scraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 # Concurrency and throttling settings
-#CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS = 16
 CONCURRENT_REQUESTS_PER_DOMAIN = 1
 DOWNLOAD_DELAY = 1
 
@@ -58,9 +58,12 @@ DOWNLOAD_DELAY = 1
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "web_scraper.pipelines.WebScraperPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "web_scraper.pipelines.FilesPipeline": 300,
+}
+FILES_STORE = '..downloads'
+FILES_URLS_FIELD = 'file_urls'
+FILES_RESULT_FIELD = 'files'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
