@@ -64,7 +64,7 @@ ITEM_PIPELINES = {
    "web_scraper.pipelines.JsonWritePipeline" : 400,
 }
 FILES_STORE = './pdf_downloads'
-FILES_URLS_FIELD = 'pdf_urls'
+FILES_URLS_FIELD = 'pdf_url'
 FILES_RESULT_FIELD = 'files'
 MEDIA_ALLOW_REDIRECTS = True
 

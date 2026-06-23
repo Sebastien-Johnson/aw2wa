@@ -12,9 +12,9 @@ class PdfSpider(scrapy.Spider):
         for link in pdf_links:
             pdf_url = urljoin(response.url, link)
             yield {
-                'pdf_urls': [pdf_url],
+                'pdf_url': [pdf_url],
                 'source_url': response.url,
-                'file_paths' : [],
+                'file_path' : [],
                 'tables' : []
             }         
 
