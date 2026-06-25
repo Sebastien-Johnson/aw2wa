@@ -40,6 +40,14 @@ class DuplicateUrls:
         return item
 
 class PdfScraperPipeline(FilesPipeline):
+    def file_path(self, request, response = None, info = None, *, item = None):
+        region_folder = request.url.split("/")[-4]
+        year_folder = request.url.split("/")[-3]
+        event_folder = request.url.split("/")[-2]
+        race_file = request.url.split("/")[-1]
+        new_filename = f"{region_folder}/{year_folder}/{event_folder}/{race_file}"
+        return new_filename
+    
     def process_item(self, item, spider = None):
         return super().process_item(item, spider)
     

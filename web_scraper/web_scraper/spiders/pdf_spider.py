@@ -18,6 +18,6 @@ class PdfSpider(scrapy.Spider):
                 'tables' : []
             }         
 
-        for next_page in response.css('a[href*="results"]::attr(href)').getall():
+        for next_page in response.css( 'a[href*="results"]::attr(href)').getall():
             print(next_page)
             yield response.follow(next_page, self.parse)
