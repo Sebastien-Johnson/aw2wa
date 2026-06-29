@@ -70,6 +70,7 @@ class PdfScraperPipeline(FilesPipeline):
 
         item['file_path'] = file_path
         item['tables'] = tables
+        self.json_write_data(item)
         return item
 
     def extract_tables_pymupdf(self, file_path):
@@ -83,15 +84,19 @@ class PdfScraperPipeline(FilesPipeline):
 
         doc.close()
         return tables
-    
-class JsonWritePipeline:
-    def open_spider(self):
-        self.file = open("items.jsonl", "a")
-    
-    def close_spider(self):
-        self.file.close()
 
-    def process_item(self, item):
+    def json_write_data(self, item):
+        new_path = item["file_path"][0].split("/")
+        data_dirs_path = "/".join(new_path[:-2])
+        data_file_path = "/".join(new_path[:-1])
+        
+        if not os.path.exists(f"race_data/{data_dirs_path}"):
+            os.makedirs(f"race_data/{data_dirs_path}")
+            file = open(f"race_data/{data_file_path}.jsonl", "w")
+        else:
+            file = open(f"race_data/{data_file_path}.jsonl", "a")
+        
         line = json.dumps(ItemAdapter(item).asdict()) + "\n"
-        self.file.write(line)
+        file.write(line)
+        file.close()
         return item

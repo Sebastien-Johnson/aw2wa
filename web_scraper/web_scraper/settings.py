@@ -61,9 +61,10 @@ DOWNLOAD_DELAY = 1
 ITEM_PIPELINES = {
    "web_scraper.pipelines.DuplicateUrls":200,
    "web_scraper.pipelines.PdfScraperPipeline": 300,
-   "web_scraper.pipelines.JsonWritePipeline" : 400,
 }
-FILES_STORE = './pdf_downloads'
+
+
+FILES_STORE = f'./pdf_downloads'
 FILES_URLS_FIELD = 'pdf_url'
 FILES_RESULT_FIELD = 'files'
 MEDIA_ALLOW_REDIRECTS = True
